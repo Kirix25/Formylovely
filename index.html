@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Для моей любимой ❤️</title>
+<title>Здесь наша история ❤️</title>
+
+<!-- Красивый шрифт -->
+<link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
 
 <style>
 
@@ -13,13 +16,17 @@ body {
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
     color: white;
     text-align: center;
+    overflow-x: hidden;
 }
 
-.container {
-    padding: 20px;
+/* Заголовок */
+.title {
+    font-family: 'Marck Script', cursive;
+    font-size: 36px;
+    margin-top: 20px;
 }
 
-/* Главная фотография */
+/* Главная фото */
 .main-photo {
     width: 90%;
     max-width: 350px;
@@ -43,10 +50,6 @@ body {
 }
 
 /* Кнопки */
-.buttons {
-    margin-top: 20px;
-}
-
 button {
     width: 90%;
     max-width: 320px;
@@ -77,18 +80,11 @@ button:active {
     padding: 25px;
     border-radius: 25px 25px 0 0;
     display: none;
-    animation: slideUp 0.4s ease;
-}
-
-@keyframes slideUp {
-    from {transform: translateY(100%);}
-    to {transform: translateY(0);}
 }
 
 .popup img {
     width: 100%;
     border-radius: 15px;
-    margin-bottom: 10px;
 }
 
 .close {
@@ -98,20 +94,57 @@ button:active {
     cursor: pointer;
 }
 
+/* Плавающие сердечки */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: floatUp 5s linear infinite;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+/* Кнопка предложения */
+.proposal-container {
+    margin-top: 20px;
+    height: 120px;
+    position: relative;
+}
+
+#yesBtn {
+    background: #ff4f81;
+    color: white;
+}
+
+#noBtn {
+    position: absolute;
+    background: white;
+    color: #ff4f81;
+}
+
+/* Секретная кнопка */
+.secret-btn {
+    margin-top: 15px;
+    font-size: 12px;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<h1 class="title">Здесь наша история 💖</h1>
 
 <img src="main-photo.jpg" class="main-photo">
 
-<div class="buttons">
-    <button onclick="showTimer()">❤️ Таймер</button>
-    <button onclick="showWish()">🌸 Пожелание на день</button>
-    <button onclick="showMoment()">📸 Моменты</button>
-</div>
+<button onclick="showTimer()">❤️ Таймер</button>
+<button onclick="showWish()">🌸 Пожелание на день</button>
+<button onclick="showMoment()">📸 Моменты</button>
 
 <div class="small-photos">
     <img src="photo1.jpg">
@@ -121,7 +154,12 @@ button:active {
     <img src="photo5.JPG">
 </div>
 
+<div class="proposal-container">
+    <button id="yesBtn" onclick="sayYes()"> Да</button>
+    <button id="noBtn" onmouseover="moveButton()">Нет</button>
 </div>
+
+<button class="secret-btn" onclick="secretSurprise()">...</button>
 
 <div id="popup" class="popup">
     <div id="popupContent"></div>
@@ -130,29 +168,18 @@ button:active {
 
 <script>
 
-// 🔥 ВАША ДАТА НАЧАЛА
-const startDate = new Date("2024-08-10");
+// ДАТА НАЧАЛА
+const startDate = new Date("10-08-2025");
 
-// Пожелания
 const wishes = [
-    "Пусть твой день будет таким же прекрасным, как ты ❤️",
-    "Желаю тебе сегодня много радости 🌸",
-    "Пусть всё задуманное получится ✨",
-    "Ты самое лучшее, что случилось в моей жизни 💕"
+    "Ты моё самое большое счастье ❤️",
+    "Пусть твой день будет волшебным ✨",
+    "Я горжусь тобой каждый день 💕"
 ];
 
-// Моменты
 const moments = [
-    {
-        type: "photo",
-        src: "moment1.jpg",
-        text: "Тот самый переломный момент 💕"
-    },
-    {
-        type: "photo",
-        src: "moment2.jpg",
-        text: "Тот момент, когда дни стали идти дольше..."
-    }
+    { src: "moment1.jpg", text: "Тот самый переломный момент 💕" },
+    { src: "moment2.jpg", text: "Тот момент, когда дни стали идти дольше..." }
 ];
 
 // Таймер
@@ -160,27 +187,24 @@ function showTimer() {
     const today = new Date();
     const diffTime = today - startDate;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    document.getElementById("popupContent").innerHTML =
-        "<h2>Мы вместе уже " + diffDays + " дней ❤️</h2>";
-    document.getElementById("popup").style.display = "block";
+    openPopup("<h2>Мы вместе уже " + diffDays + " дней ❤️</h2>");
 }
 
 // Пожелание
 function showWish() {
     const random = wishes[Math.floor(Math.random() * wishes.length)];
-    document.getElementById("popupContent").innerHTML =
-        "<h3>" + random + "</h3>";
-    document.getElementById("popup").style.display = "block";
+    openPopup("<h3>" + random + "</h3>");
 }
 
 // Момент
 function showMoment() {
     const randomMoment = moments[Math.floor(Math.random() * moments.length)];
+    openPopup("<img src='" + randomMoment.src + "'><p>" + randomMoment.text + "</p>");
+}
 
-    document.getElementById("popupContent").innerHTML =
-        "<img src='" + randomMoment.src + "'>" +
-        "<p>" + randomMoment.text + "</p>";
-
+// Попап
+function openPopup(content) {
+    document.getElementById("popupContent").innerHTML = content;
     document.getElementById("popup").style.display = "block";
 }
 
@@ -188,7 +212,41 @@ function closePopup() {
     document.getElementById("popup").style.display = "none";
 }
 
+// Убегающая кнопка
+function moveButton() {
+    const btn = document.getElementById("noBtn");
+    const container = document.querySelector(".proposal-container");
+    const maxX = container.clientWidth - btn.clientWidth;
+    const maxY = container.clientHeight - btn.clientHeight;
+    btn.style.left = Math.random() * maxX + "px";
+    btn.style.top = Math.random() * maxY + "px";
+}
+
+function sayYes() {
+    openPopup("<h2>Я знал, что ты скажешь да ❤️</h2>");
+}
+
+// Секретная кнопка
+function secretSurprise() {
+    openPopup("<h2>Ты — лучшее, что случилось в моей жизни 💖</h2>");
+}
+
+// Плавающие сердечки
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (15 + Math.random() * 20) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}, 500);
+
 </script>
 
 </body>
 </html>
+
