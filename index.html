@@ -107,24 +107,6 @@ button:active {
     100% { transform: translateY(-100vh); opacity: 0; }
 }
 
-/* Кнопка предложения */
-.proposal-container {
-    margin-top: 20px;
-    height: 120px;
-    position: relative;
-}
-
-#yesBtn {
-    background: #ff4f81;
-    color: white;
-}
-
-#noBtn {
-    position: absolute;
-    background: white;
-    color: #ff4f81;
-}
-
 /* Секретная кнопка */
 .secret-btn {
     margin-top: 15px;
@@ -152,11 +134,6 @@ button:active {
     <img src="photo3.jpg">
     <img src="photo4.JPG">
     <img src="photo5.JPG">
-</div>
-
-<div class="proposal-container">
-    <button id="yesBtn" onclick="sayYes()"> Да</button>
-    <button id="noBtn" onmouseover="moveButton()">Нет</button>
 </div>
 
 <button class="secret-btn" onclick="secretSurprise()">...</button>
@@ -210,20 +187,6 @@ function openPopup(content) {
 
 function closePopup() {
     document.getElementById("popup").style.display = "none";
-}
-
-// Убегающая кнопка
-function moveButton() {
-    const btn = document.getElementById("noBtn");
-    const container = document.querySelector(".proposal-container");
-    const maxX = container.clientWidth - btn.clientWidth;
-    const maxY = container.clientHeight - btn.clientHeight;
-    btn.style.left = Math.random() * maxX + "px";
-    btn.style.top = Math.random() * maxY + "px";
-}
-
-function sayYes() {
-    openPopup("<h2>Я знал, что ты скажешь да ❤️</h2>");
 }
 
 // Секретная кнопка
