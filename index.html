@@ -2,89 +2,125 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Для моей любимой ❤️</title>
 
 <style>
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
     color: white;
     text-align: center;
-    overflow-x: hidden;
 }
 
+.container {
+    padding: 20px;
+}
+
+/* Главная фотография */
 .main-photo {
-    width: 300px;
+    width: 90%;
+    max-width: 350px;
     border-radius: 20px;
-    margin-top: 40px;
+    margin: 20px auto;
+    display: block;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-.small-photo {
-    position: absolute;
-    width: 100px;
-    border-radius: 15px;
-    opacity: 0.9;
+/* Маленькие фото сеткой */
+.small-photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 15px;
 }
 
+.small-photos img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* Кнопки */
 .buttons {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 button {
-    padding: 12px 25px;
-    margin: 10px;
+    width: 90%;
+    max-width: 320px;
+    padding: 14px;
+    margin: 8px auto;
     font-size: 16px;
     border: none;
     border-radius: 30px;
     cursor: pointer;
     background: white;
     color: #ff4f81;
+    display: block;
     transition: 0.3s;
 }
 
-button:hover {
-    transform: scale(1.1);
+button:active {
+    transform: scale(0.95);
 }
 
+/* Попап */
 .popup {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
     background: white;
     color: #ff4f81;
-    padding: 30px;
-    border-radius: 20px;
+    padding: 25px;
+    border-radius: 25px 25px 0 0;
     display: none;
-    max-width: 300px;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {transform: translateY(100%);}
+    to {transform: translateY(0);}
+}
+
+.popup img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 10px;
 }
 
 .close {
     margin-top: 15px;
-    cursor: pointer;
     color: gray;
+    font-size: 14px;
+    cursor: pointer;
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- Маленькие фото (можешь менять позиции %) -->
-<img src="photo1.jpg" class="small-photo" style="top:10%; left:5%;">
-<img src="photo2.jpg" class="small-photo" style="top:20%; right:10%;">
-<img src="photo3.jpg" class="small-photo" style="bottom:15%; left:15%;">
-<img src="photo4.JPG" class="small-photo" style="bottom:10%; right:5%;">
-<img src="photo5.JPG" class="small-photo" style="bottom:5%; right:20%;">
+<div class="container">
 
-<!-- Главная фотография -->
 <img src="main-photo.jpg" class="main-photo">
 
 <div class="buttons">
-    <button onclick="showTimer()">Таймер ❤️</button>
-    <button onclick="showWish()">Пожелание на день 🌸</button>
-    <button onclick="showMoment()">Моменты 📸</button>
+    <button onclick="showTimer()">❤️ Таймер</button>
+    <button onclick="showWish()">🌸 Пожелание на день</button>
+    <button onclick="showMoment()">📸 Моменты</button>
+</div>
+
+<div class="small-photos">
+    <img src="photo1.jpg">
+    <img src="photo2.jpg">
+    <img src="photo3.jpg">
+    <img src="photo4.JPG">
+    <img src="photo5.JPG">
+</div>
+
 </div>
 
 <div id="popup" class="popup">
@@ -94,18 +130,18 @@ button:hover {
 
 <script>
 
-// 🔥 УКАЖИ ДАТУ НАЧАЛА ОТНОШЕНИЙ
-const startDate = new Date("10-08-2025");
+// 🔥 ВАША ДАТА НАЧАЛА
+const startDate = new Date("2024-08-10");
 
-// Пожелания (можешь добавлять сколько хочешь)
+// Пожелания
 const wishes = [
-    "Пусть твой день будет таким же прекрасным, как твоя улыбка ❤️",
-    "Желаю тебе сегодня много радости и вдохновения 🌸",
-    "Пусть сегодня сбудется хотя бы одно маленькое чудо ✨",
-    "Помни: ты самая лучшая 💕"
+    "Пусть твой день будет таким же прекрасным, как ты ❤️",
+    "Желаю тебе сегодня много радости 🌸",
+    "Пусть всё задуманное получится ✨",
+    "Ты самое лучшее, что случилось в моей жизни 💕"
 ];
 
-// Моменты (можешь менять фото/видео и текст)
+// Моменты
 const moments = [
     {
         type: "photo",
@@ -115,7 +151,7 @@ const moments = [
     {
         type: "photo",
         src: "moment2.jpg",
-        text: "Тот момент когда дни стали идти дольше..."
+        text: "Тот момент, когда дни стали идти дольше..."
     }
 ];
 
@@ -133,19 +169,17 @@ function showTimer() {
 function showWish() {
     const random = wishes[Math.floor(Math.random() * wishes.length)];
     document.getElementById("popupContent").innerHTML =
-        "<h2>" + random + "</h2>";
+        "<h3>" + random + "</h3>";
     document.getElementById("popup").style.display = "block";
 }
 
-// Моменты
+// Момент
 function showMoment() {
     const randomMoment = moments[Math.floor(Math.random() * moments.length)];
-    
-    if (randomMoment.type === "photo") {
-        document.getElementById("popupContent").innerHTML =
-            "<img src='" + randomMoment.src + "' style='width:100%; border-radius:15px;'><p>" +
-            randomMoment.text + "</p>";
-    }
+
+    document.getElementById("popupContent").innerHTML =
+        "<img src='" + randomMoment.src + "'>" +
+        "<p>" + randomMoment.text + "</p>";
 
     document.getElementById("popup").style.display = "block";
 }
