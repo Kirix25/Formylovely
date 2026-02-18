@@ -1,61 +1,158 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Для моей любимой ❤️</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            text-align: center;
-            color: white;
-        }
+<meta charset="UTF-8">
+<title>Для моей любимой ❤️</title>
 
-        .container {
-            padding: 100px 20px;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
 
-        h1 {
-            font-size: 50px;
-        }
+.main-photo {
+    width: 300px;
+    border-radius: 20px;
+    margin-top: 40px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
 
-        p {
-            font-size: 22px;
-            max-width: 600px;
-            margin: 20px auto;
-        }
+.small-photo {
+    position: absolute;
+    width: 100px;
+    border-radius: 15px;
+    opacity: 0.9;
+}
 
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            border: none;
-            border-radius: 30px;
-            background: white;
-            color: #ff4f81;
-            cursor: pointer;
-        }
+.buttons {
+    margin-top: 30px;
+}
 
-        button:hover {
-            transform: scale(1.1);
-        }
-    </style>
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: white;
+    color: #ff4f81;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: #ff4f81;
+    padding: 30px;
+    border-radius: 20px;
+    display: none;
+    max-width: 300px;
+}
+
+.close {
+    margin-top: 15px;
+    cursor: pointer;
+    color: gray;
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Ты — моё счастье ❤️</h1>
-    <p>
-        Спасибо тебе за каждый день, за улыбку и тепло.
-        Я очень тебя люблю.
-    </p>
-    <button onclick="showMessage()">Нажми 💌</button>
+<!-- Маленькие фото (можешь менять позиции %) -->
+<img src="photo1.jpg" class="small-photo" style="top:10%; left:5%;">
+<img src="photo2.jpg" class="small-photo" style="top:20%; right:10%;">
+<img src="photo3.jpg" class="small-photo" style="bottom:15%; left:15%;">
+<img src="photo4.jpg" class="small-photo" style="bottom:10%; right:5%;">
+
+<!-- Главная фотография -->
+<img src="main-photo.jpg" class="main-photo">
+
+<div class="buttons">
+    <button onclick="showTimer()">Таймер ❤️</button>
+    <button onclick="showWish()">Пожелание на день 🌸</button>
+    <button onclick="showMoment()">Моменты 📸</button>
+</div>
+
+<div id="popup" class="popup">
+    <div id="popupContent"></div>
+    <div class="close" onclick="closePopup()">Закрыть</div>
 </div>
 
 <script>
-function showMessage() {
-    alert("Ты самая лучшая ❤️");
+
+// 🔥 УКАЖИ ДАТУ НАЧАЛА ОТНОШЕНИЙ
+const startDate = new Date("10-08-2025");
+
+// Пожелания (можешь добавлять сколько хочешь)
+const wishes = [
+    "Пусть твой день будет таким же прекрасным, как твоя улыбка ❤️",
+    "Желаю тебе сегодня много радости и вдохновения 🌸",
+    "Пусть сегодня сбудется хотя бы одно маленькое чудо ✨",
+    "Помни: ты самая лучшая 💕"
+];
+
+// Моменты (можешь менять фото/видео и текст)
+const moments = [
+    {
+        type: "photo",
+        src: "moment1.jpg",
+        text: "Наш первый совместный вечер 💕"
+    },
+    {
+        type: "photo",
+        src: "moment2.jpg",
+        text: "Та самая прогулка под дождём ☔"
+    }
+];
+
+// Таймер
+function showTimer() {
+    const today = new Date();
+    const diffTime = today - startDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById("popupContent").innerHTML =
+        "<h2>Мы вместе уже " + diffDays + " дней ❤️</h2>";
+    document.getElementById("popup").style.display = "block";
 }
+
+// Пожелание
+function showWish() {
+    const random = wishes[Math.floor(Math.random() * wishes.length)];
+    document.getElementById("popupContent").innerHTML =
+        "<h2>" + random + "</h2>";
+    document.getElementById("popup").style.display = "block";
+}
+
+// Моменты
+function showMoment() {
+    const randomMoment = moments[Math.floor(Math.random() * moments.length)];
+    
+    if (randomMoment.type === "photo") {
+        document.getElementById("popupContent").innerHTML =
+            "<img src='" + randomMoment.src + "' style='width:100%; border-radius:15px;'><p>" +
+            randomMoment.text + "</p>";
+    }
+
+    document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
 </script>
 
 </body>
