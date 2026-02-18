@@ -7,7 +7,6 @@
 
 <!-- Красивый шрифт -->
 <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
-
 <style>
 
 body {
@@ -16,7 +15,6 @@ body {
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
     color: white;
     text-align: center;
-    overflow-x: hidden;
 }
 
 /* Заголовок */
@@ -26,7 +24,11 @@ body {
     margin-top: 20px;
 }
 
-/* Главная фото */
+.container {
+    padding: 20px;
+}
+
+/* Главная фотография */
 .main-photo {
     width: 90%;
     max-width: 350px;
@@ -50,6 +52,10 @@ body {
 }
 
 /* Кнопки */
+.buttons {
+    margin-top: 20px;
+}
+
 button {
     width: 90%;
     max-width: 320px;
@@ -80,11 +86,18 @@ button:active {
     padding: 25px;
     border-radius: 25px 25px 0 0;
     display: none;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {transform: translateY(100%);}
+    to {transform: translateY(0);}
 }
 
 .popup img {
     width: 100%;
     border-radius: 15px;
+    margin-bottom: 10px;
 }
 
 .close {
@@ -107,14 +120,6 @@ button:active {
     100% { transform: translateY(-100vh); opacity: 0; }
 }
 
-/* Секретная кнопка */
-.secret-btn {
-    margin-top: 15px;
-    font-size: 12px;
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-}
-
 </style>
 </head>
 
@@ -124,9 +129,11 @@ button:active {
 
 <img src="main-photo.jpg" class="main-photo">
 
-<button onclick="showTimer()">❤️ Таймер</button>
-<button onclick="showWish()">🌸 Пожелание на день</button>
-<button onclick="showMoment()">📸 Моменты</button>
+<div class="buttons">
+    <button onclick="showTimer()">❤️ Таймер</button>
+    <button onclick="showWish()">🌸 Пожелание на день</button>
+    <button onclick="showMoment()">📸 Моменты</button>
+</div>
 
 <div class="small-photos">
     <img src="photo1.jpg">
@@ -136,7 +143,7 @@ button:active {
     <img src="photo5.JPG">
 </div>
 
-<button class="secret-btn" onclick="secretSurprise()">...</button>
+</div>
 
 <div id="popup" class="popup">
     <div id="popupContent"></div>
@@ -145,18 +152,29 @@ button:active {
 
 <script>
 
-// ДАТА НАЧАЛА
+// 🔥 ВАША ДАТА НАЧАЛА
 const startDate = new Date("10-08-2025");
 
+// Пожелания
 const wishes = [
-    "Ты моё самое большое счастье ❤️",
-    "Пусть твой день будет волшебным ✨",
-    "Я горжусь тобой каждый день 💕"
+    "Пусть твой день будет таким же прекрасным, как ты ❤️",
+    "Желаю тебе сегодня много радости 🌸",
+    "Пусть всё задуманное получится ✨",
+    "Ты самое лучшее, что случилось в моей жизни 💕"
 ];
 
+// Моменты
 const moments = [
-    { src: "moment1.jpg", text: "Тот самый переломный момент 💕" },
-    { src: "moment2.jpg", text: "Тот момент, когда дни стали идти дольше..." }
+    {
+        type: "photo",
+        src: "moment1.jpg",
+        text: "Тот самый переломный момент 💕"
+    },
+    {
+        type: "photo",
+        src: "moment2.jpg",
+        text: "Тот момент, когда дни стали идти дольше..."
+    }
 ];
 
 // Таймер
@@ -164,24 +182,27 @@ function showTimer() {
     const today = new Date();
     const diffTime = today - startDate;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    openPopup("<h2>Мы вместе уже " + diffDays + " дней ❤️</h2>");
+    document.getElementById("popupContent").innerHTML =
+        "<h2>Мы вместе уже " + diffDays + " дней ❤️</h2>";
+    document.getElementById("popup").style.display = "block";
 }
 
 // Пожелание
 function showWish() {
     const random = wishes[Math.floor(Math.random() * wishes.length)];
-    openPopup("<h3>" + random + "</h3>");
+    document.getElementById("popupContent").innerHTML =
+        "<h3>" + random + "</h3>";
+    document.getElementById("popup").style.display = "block";
 }
 
 // Момент
 function showMoment() {
     const randomMoment = moments[Math.floor(Math.random() * moments.length)];
-    openPopup("<img src='" + randomMoment.src + "'><p>" + randomMoment.text + "</p>");
-}
 
-// Попап
-function openPopup(content) {
-    document.getElementById("popupContent").innerHTML = content;
+    document.getElementById("popupContent").innerHTML =
+        "<img src='" + randomMoment.src + "'>" +
+        "<p>" + randomMoment.text + "</p>";
+
     document.getElementById("popup").style.display = "block";
 }
 
@@ -189,27 +210,7 @@ function closePopup() {
     document.getElementById("popup").style.display = "none";
 }
 
-// Секретная кнопка
-function secretSurprise() {
-    openPopup("<h2>Ты — лучшее, что случилось в моей жизни 💖</h2>");
-}
-
-// Плавающие сердечки
-setInterval(() => {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (15 + Math.random() * 20) + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 5000);
-}, 500);
-
 </script>
 
 </body>
 </html>
-
